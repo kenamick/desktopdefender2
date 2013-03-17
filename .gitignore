@@ -1,0 +1,14 @@
+# Skip
+_Debug/*
+_sreenshts/*
+Sfx/*
+Gfx/*
+dd2*.txt
+Thumbs.db
+kritiks.txt
+SS_Control.txt
+DA_*.txt
+*.exe
+cadets/*.ddc
+DD2.PDM
+MSSCCPRJ.SCC

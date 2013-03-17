@@ -1,0 +1,387 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "clsKDF2"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+
+'-------------------------------------
+'--> KenamicK Data File Pack 2
+'--> by Pro-XeX
+'--> KenamicK Entertainment 1998-2002
+'-------------------------------------
+
+Private Type stKDFile
+  strName   As String                           ' file name
+  strInfo   As String                           ' extended file info
+  lPosition As Long                             ' position in packet
+End Type
+
+Private Const KDF_IDENTITY = "KDF"              ' packet identity
+Private Const KDF_VERSION = 20                  ' packet version (2.0)
+
+Dim m_arKDFile()     As stKDFile                ' array of all the files
+Dim m_arKDFilePath() As String                  ' file path ( not part of the main data structure )
+Dim m_lnumFiles      As Long                    ' number of files in packet
+'Dim m_strPacketName  As String                  ' packet file name
+Dim m_strLog         As String                  ' log messages
+Dim m_bTagOpened     As Boolean                 ' tag opened flag
+
+'////////////////////////////////////////////////////////////////
+'//// On initialization
+'////////////////////////////////////////////////////////////////
+Private Sub _
+Class_Initialize()
+ 
+ Call Reset
+   
+End Sub
+
+'////////////////////////////////////////////////////////////////
+'//// On termination
+'////////////////////////////////////////////////////////////////
+Private Sub _
+Class_Terminate()
+ 
+ Call Reset
+ 
+End Sub
+
+'////////////////////////////////////////////////////////////////
+'//// Clear all arrays
+'////////////////////////////////////////////////////////////////
+Private Sub _
+Reset()
+ 
+ ' reset file counter
+ m_lnumFiles = -1
+ ' reset tag flag
+ m_bTagOpened = False
+ 
+ ' clear array
+ Erase m_arKDFile()
+ Erase m_arKDFilePath()
+
+End Sub
+
+'////////////////////////////////////////////////////////////////
+'//// Add message to local log
+'//// STRING strMsg - text message to add
+'////////////////////////////////////////////////////////////////
+Private Sub _
+AppendToLog(strMsg As String)
+ 
+ m_strLog = m_strLog & vbCrLf & strMsg
+
+End Sub
+
+'////////////////////////////////////////////////////////////////
+'//// Load Tag
+'//// STRING strFileName - path&filename to load
+'////////////////////////////////////////////////////////////////
+Public Function _
+LoadTag(strFileName As String) As Boolean
+
+ ' tarp local errors
+ 'On Local Error GoTo KDFTAGLOADRROR
+ 
+ Dim cn     As Integer
+ Dim hFile  As Integer
+ 
+ ' reset arrays and counter
+ Call Reset
+ 
+ ' get free file handle
+ hFile = FreeFile()
+  
+ AppendToLog ("Opening tag " & strFileName)
+ 
+ Open (strFileName) For Binary Access Read As #hFile
+  
+  ' get num of files
+  Get #hFile, , m_lnumFiles
+  
+  ' save all entries
+  For cn = 0 To m_lnumFiles
+   Get #hFile, , m_arKDFile(cn)
+  Next
+ Close #hFile
+ 
+ m_bTagOpened = True
+ LoadTag = True
+ AppendToLog ("Tag Opened...")
+Exit Function
+
+KDFTAGLOADERROR:
+ LoadTag = False
+ AppendToLog ("Error opening tag " & strFileName)
+ m_bTagOpened = False
+End Function
+
+
+'////////////////////////////////////////////////////////////////
+'//// Load packet
+'//// STRING strFileName - path&filename to load
+'////////////////////////////////////////////////////////////////
+Public Function _
+LoadPacket(strFileName As String) As Boolean
+
+ ' trap local errors
+ 'On Local Error GoTo KDFLOADERROR
+ 
+ Dim hFile       As Integer
+ Dim hFile2      As Integer
+ Dim strIdentity As String
+ Dim nVersion    As Integer
+ 
+ ' see if tag is opened
+ If (Not m_bTagOpened) Then
+  AppendToLog ("Tag file is not opened!")
+  GoTo KDFLOADERROR
+ End If
+ 
+ AppendToLog ("Opening packet " & strFileName)
+ ' open packet
+ Open (strFileName) For Binary Access Read As #hFile
+  
+  ' get identity
+  strIdentity = Space$(Len(KDF_IDENTITY))
+  Get #hFile, , strIdentity
+  ' check identity
+  If (strIdentity <> KDF_IDENTITY) Then
+   AppendToLog ("Not a valid KDF file!")
+   GoTo KDFLOADERROR
+  End If
+  ' get version
+  Get #hFile, , nVersion
+  If (nVersion <> KDF_VERSION) Then
+   AppendToLog ("Packet version is not supported!")
+   GoTo KDFLOADERROR
+  End If
+    
+  '...
+  
+ Close #hFile
+ 
+ LoadPacket = True
+ AppendToLog ("Loading packet successful...")
+
+Exit Function
+
+KDFLOADERROR:
+ '...
+ AppendToLog ("Error loading packet " & strFileName)
+ LoadPacket = False
+End Function
+
+'////////////////////////////////////////////////////////////////
+'//// Save Tag
+'//// STRING strFileName - path&filename to save
+'////////////////////////////////////////////////////////////////
+Public Function _
+SaveTag(strFileName As String) As Boolean
+
+ ' tarp local errors
+ 'On Local Error GoTo KDFTAGSAVERROR
+ 
+ Dim cn     As Integer
+ Dim hFile  As Integer
+ 
+ ' get free file handle
+ hFile = FreeFile()
+ 
+ AppendToLog ("Saving tag " & strFileName)
+ 
+ Open (strFileName) For Binary Access Write As #hFile
+  
+  ' save num of entires
+  Put #hFile, , m_lnumFiles
+  
+  ' save all entries
+  For cn = 0 To m_lnumFiles
+   Put #hFile, , m_arKDFile(cn)
+  Next
+ Close #hFile
+ 
+ SaveTag = True
+ AppendToLog ("Saving tag successful...")
+Exit Function
+
+KDFTAGSAVERROR:
+ SaveTag = False
+ AppendToLog ("Error saving tag " & strFileName)
+End Function
+
+'////////////////////////////////////////////////////////////////
+'//// Save packet
+'//// STRING strFileName - path&filename to save
+'////////////////////////////////////////////////////////////////
+Public Function _
+SavePacket(strFileName As String) As Boolean
+
+ ' trap local errors
+ 'On Local Error GoTo KDFSAVERROR
+ 
+ Dim cn       As Long
+ Dim hFile    As Integer
+ Dim hFile2   As Integer
+ Dim arData() As Byte
+ 
+ ' get free file handles
+ hFile = FreeFile()
+ hFile2 = FreeFile() + 1
+ 
+ AppendToLog ("Saving packet " & strFileName)
+ 
+ Open (strFileName) For Binary Access Write As #hFile
+   
+  ' save header
+  Put #hFile, , KDF_IDENTITY
+  ' save version
+  Put #hFile, , KDF_VERSION
+  
+  For cn = 0 To m_lnumFiles
+   
+   ' open KDFile entry
+   Open (m_arKDFilePath(cn)) For Binary Access Read As #hFile2
+    ' resize data array
+    ReDim arData((LOF(hFile2) - 1))
+    ' get data
+    Get #hFile2, , arData()
+   Close #hFile2
+      
+   ' save position in packet
+   m_arKDFile(cn).lPosition = Seek(hFile)
+   ' save data
+   Put #hFile, , arData()
+   
+  Next cn
+      
+ Close #hFile
+ 
+ SavePacket = True
+ AppendToLog ("Packet saved successfully...")
+ 
+Exit Function
+
+KDFSAVERROR:
+ '...
+ SavePacket = False
+ AppendToLog ("Error saving packet " & strFileName)
+End Function
+
+'////////////////////////////////////////////////////////////////
+'//// Delete file to packet
+'//// STRING strFileName - path&filename to delete from packet
+'////////////////////////////////////////////////////////////////
+Public Function _
+DeleteFile(strFileName As String)
+   
+ Dim i      As Long
+ Dim j      As Long
+ Dim bFound As Boolean
+ 
+ AppendToLog ("Removing " & strFileName)
+  
+ ' loop trough all entries
+ Do While (i < m_lnumFiles)
+ 
+  ' look for file
+  If (m_arKDFile(i).strInfo = strFileName) Then
+   
+   '' exchangle files & paths
+   'm_arKDFile(i) = m_arKDFile(m_lnumFiles)
+   'm_arKDFilePath(i) = m_arKDFilePath(m_lnumFiles)
+   ' kill this entry
+   For j = i To (m_lnumFiles - 1)
+    m_arKDFile(i) = m_arKDFile(i + 1)
+    m_arKDFilePath(i) = m_arKDFilePath(i + 1)
+   Next
+      
+   ' decrement file counter
+   m_lnumFiles = m_lnumFiles - 1
+   ' resize arrays
+   ReDim Preserve m_arKDFile(m_lnumFiles)
+   ReDim Preserve m_arKDFilePath(m_lnumFiles)
+   ' job done, exit stage...left ;)
+   Exit Do
+  End If
+  
+  ' increment counter
+  i = i + 1
+ Loop
+
+ If (bFound) Then
+  AppendToLog (strFileName & " was removed sucessfully.")
+ Else
+  AppendToLog ("Could not find " & strFileName & " in archive!")
+ End If
+End Function
+
+'////////////////////////////////////////////////////////////////
+'//// Add file to packet
+'//// STRING strFileName - path&filename to add to packet
+'//// STRING strInfo     - filename info
+'//// Returns: index in the kdf array
+'////////////////////////////////////////////////////////////////
+Public Function _
+AddFile(strFileName As String, _
+        Optional strInfo As String = "") As Long
+ 
+ ' incremenet files counter
+ m_lnumFiles = m_lnumFiles + 1
+ ' resize array
+ ReDim Preserve m_arKDFile(m_lnumFiles)
+ ReDim Preserve m_arKDFilePath(m_lnumFiles)
+ 
+ ' fill info
+ Dim llbl     As Long                            ' last backlash located@
+ Dim strFile  As String
+ Dim cn       As Integer
+ 
+ AppendToLog ("Adding " & strFileName)
+ 
+ ' extract file name from file path
+ Do While (cn < Len(strFileName))
+  
+  cn = llbl + 1
+  llbl = InStr(cn, strFileName, "\")
+  
+  ' no more backlashes located
+  If (llbl = 0) Then
+   strFile = Mid$(strFileName, cn)
+   Exit Do
+  End If
+ 
+ Loop
+ 
+ m_arKDFile(m_lnumFiles).strName = strFile
+ m_arKDFile(m_lnumFiles).strInfo = strInfo
+ m_arKDFilePath(m_lnumFiles) = strFileName
+ 
+ ' return
+ AddFile = m_lnumFiles
+ AppendToLog (strFileName & " was added successfully.")
+ 
+End Function
+
+' ----- proprties
+
+'////////////////////////////////////////////////////////////////
+'//// Get class status/log
+'////////////////////////////////////////////////////////////////
+Public Property Get _
+GetLog() As String
+
+ GetLog = m_strLog
+
+End Property
+

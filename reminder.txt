@@ -1,0 +1,151 @@
+Cheti predi coding
+=================================================================
+ (Notes to Myself ! ;)
+
+9) 8.01.2003  ---
+Render() w clsShip() m_CurrentFrame + m_Dir - error za loading
+na face-owete...
+
+1) raketite se ligawqt.W ship clasa na "createmissile" oprawi 
+   predawaneto na posiciqta na celta - ...	   - FIXED!
+	
+2) GOLQM PROBLEM MAN! function CalcVelocityBound NE RABOTI pri razlichni x i y skorosti.			   - FIXED!
+
+3) Problemi, sled kato ostanat 0 bunkera - SOR(ange) error! - FIXED
+
+4) BLACK_RAZORite treperqt! Sigurno e ot UpdateMovingAI - procedurata
+   kydeto gleda za Max(m_y, m_dy) i se bazika tam. - FIXED!
+
+5) Korabite ne se poqwqwat kakto trqbwa ot WARP-GATA, zashtoto izplozwash "typeGFX_HBM", trqbwat kadri s WARPING!
+
+6) Backgrounda syshto trepti mai. Possible Solution: DDERR_WASSTILLBLITTING (proveri v C++ Exapmleite)
+
+7) Procedure UpdateBackground ( SCREEN_PIXEL_WIDTH - 720) tochno Zashto proveri? - REJECTED
+
+8) InterceptBack Funkciqta, ne e tochna zaradi prinuditelno wryshtane na chujdi ship-child-klasowe, 
+m_bytOwner - se smenq pri mother-ship unishtojenie
+Risk ot unihstojawane na pogreshen interceptor
+
+If (m_Type = ST_INTERCEPTOR1 And cShip(m_bytOwner).GetVisible And _
+      cShip(m_bytOwner).GetInterceptors > 0) Then _
+   Call cShip(m_bytOwner).KillInterceptor(m_myIndex)
+End If
+
+    'Dim ret As Long
+    'ret = SetWindowLong(frmMain.hwnd, GWL_STYLE, _
+         WS_OVERLAPPED Or WS_MINIMIZEBOX) ' _
+         'WS_CAPTION Or _
+         'WS_POPUP)
+
+
+Public Enum cnstKeys
+ DIK_ESCAPE = 1
+ DIK_1
+ DIK_2
+ DIK_3
+ DIK_4
+ DIK_5
+ DIK_6
+ DIK_7
+ DIK_8
+ DIK_9
+ DIK_0
+ DIK_MINUS
+ DIK_EQUALS
+ DIK_BACK  ' BACKSPACE
+ DIK_TAB
+ DIK_Q
+ DIK_W
+ DIK_E
+ DIK_R
+ DIK_T
+ DIK_Y
+ DIK_U
+ DIK_I
+ DIK_O
+ DIK_P
+ DIK_LBRACKET
+ DIK_RBRACKET
+ DIK_RETURN
+ DIK_LCONTROL
+ DIK_A
+ DIK_S
+ DIK_D
+ DIK_F
+ DIK_G
+ DIK_H
+ DIK_J
+ DIK_K
+ DIK_L
+ DIK_SEMICOLON
+ DIK_APOSTROPHE
+ DIK_GRAVE
+ DIK_LSHIFT
+ DIK_BACKSLASH
+ DIK_Z
+ DIK_X
+ DIK_C
+ DIK_V
+ DIK_B
+ DIK_N
+ DIK_M
+ DIK_COMMA
+ DIK_PERIOD
+ DIK_SLASH
+ DIK_RSHIFT
+ DIK_MULTIPLY
+ DIK_LMENU
+ DIK_SPACE
+ DIK_CAPITAL
+ DIK_F1
+ DIK_F2
+ DIK_F3
+ DIK_F4
+ DIK_F5
+ DIK_F6
+ DIK_F7
+ DIK_F8
+ DIK_F9
+ DIK_F10
+ DIK_NUMLOCK
+ DIK_SCROLL
+ DIK_NUMPAD7
+ DIK_NUMPAD8
+ DIK_NUMPAD9
+ DIK_SUBTRACT
+ DIK_NUMPAD4
+ DIK_NUMPAD5
+ DIK_NUMPAD6
+ DIK_ADD
+ DIK_NUMPAD1
+ DIK_NUMPAD2
+ DIK_NUMPAD3
+ DIK_NUMPAD0
+ DIK_DECIMAL
+ DIK_F11
+ DIK_F12
+ DIK_F13
+ DIK_F14
+ DIK_F15
+ '....
+ DIK_NUMPADENTER = 156
+ DIK_RCONTROL
+ DIK_NUMPADCOMMA
+ DIK_DIVIDE
+ DIK_SYSRQ
+ DIK_RMENU ' Right ALT
+ DIK_HOME
+ DIK_UP
+ DIK_PRIOR ' PAGE UP
+ DIK_LEFT
+ DIK_RIGHT ' Right arrow
+ DIK_END
+ DIK_DOWN  ' Down arrow
+ DIK_NEXT  ' PAGE DOWN
+ DIK_INSERT
+ DIK_DELETE
+ DIK_LWIN  ' Left Windows key
+ DIK_RWIN  ' Right Windows key
+ DIK_APPS  ' Application key
+ DIK_PAUSE '
+End Enum

@@ -1,0 +1,18 @@
+Command Line:
+----------------------------------
+ -noret   No Retracing (Maximum Frame-Rate)
+ -vram    Loads all graphics in the Video Memory (this is default actually)
+ -sram    Loads all graphics in System Memory
+
+InGame Keys:
+----------------------------------
+
+ LEFT, RIGHT arrows - move screen
+ MOUSE LEFT - Fire Weapon
+ 1, 2, 3    - Change Weapons / 1 - Laser / 2 - Close Missiles / 3 - Far Missiles
+ ESC 	    - Exit Game
+
+
+  
+
+

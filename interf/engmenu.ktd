@@ -1,0 +1,60 @@
+{TEXTDATA}
+Play
+Options
+Hall Of Fame
+Instructions
+Resign
+Back
+Gamma
+Gamma  unavailable
+Sound
+Music
+VSync  On
+VSync  Off
+Credits
+Create New Player
+Enter new player name:
+Invalid name!
+Player deleted.
+Cannot delete player.
+Incorrect password!
+Password(empty for none):
+Enter password:
+Confirm password:
+Name:
+Password:
+Score:
+Rank:
+Mission:
+Total Shots:
+Target Success:
+Kills:
+Experience:
+PAGEGDOWN key - next page
+PAGEGUP key - previous page
+DEL key - delete character
+Credits
+Hall Of Fame
+Help
+Controls:
+Use the arrow keys or the mouse to move.
+Mouse Left or Space to fire.Mouse Right
+or 1-3 keys to change weapons.
+Bonuses:
+- Annihilate missile(nothing lives!)
+- Explosion(up to 100dmg over 3x3 area)
+- Particle Remover(small destructive mech)
+- Faster Shots(double weapons speed)
+- Repair destroyed turret
+- MegaDamage( +10 pts. to damage)
+-
+Earth:
+Timeleft:
+W:
+Laser
+Mis_Close
+Mis_Far
+Intro
+Solid Health Bars  On
+Solid Health Bars  Off
+{ENDTEXTDATA}
