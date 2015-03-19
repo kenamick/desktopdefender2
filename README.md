@@ -1,7 +1,16 @@
 # desktopdefender2
 
 ## Story
-The Earth needs you once again. So, join the human forces and become a hero.Annihilate the enemies invading. Fight for your freedom.
+The Earth needs you once again, so join the human forces and become a hero. 
+Annihilate the enemies invading. Fight for your freedom.
+
+## Screens
+
+
+![alt text](http://i.imgur.com/UPLz8Gr.jpg "In game #1")
+![alt text](http://i.imgur.com/L005keL.jpg "In game #2")
+![alt text](http://i.imgur.com/AcHIVVw.jpg "In game #3")
+
 
 ## Game features
 
