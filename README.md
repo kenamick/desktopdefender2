@@ -21,11 +21,13 @@ The ultimate force in our galaxy is the Galactic confederation. Most intelligent
   * Pre-rendered 2D graphics
   * Player profiles & full destruction statistics
 
-##System requirements
+## System requirements
 
-  * Windows 95/98SE/ME/2000/XP
-  * 300 MHz Pentium or better
-  * 32 MB Ram
-  * DirectX 7.0 or newer
+ * Windows 95/98SE/ME/2000/XP
+ * 300 MHz Pentium or better
+ * 32 MB RAM
+ * DirectX 7.0
 
-    Please note that since Windows Vista, DirectX 7 is no longer supported. One way to run this game is using a VirtualBox VM.
+```
+Please note that from Windows Vista onwards DirectX 7 is no longer supported. One way to run this game is using a VirtualBox VM.
+```
