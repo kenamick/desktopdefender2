@@ -2,10 +2,12 @@ Desktop Defender II - Battle for Existence
 ==============================================
 
 ```
-Please note that from Windows Vista onwards DirectX 7 is no longer supported. One way to run this game is using a VirtualBox VM. A port of the game for DX9 is pending ...
+Please note that from Windows Vista onwards DirectX 7 is no longer supported! 
+This game would probably only run on a Windows XP.
+A port of the game for DX9 is pending ...
 ```
 
-DD2 is a 2D shoot'em up game where you control a battle turrent on the surface of the moon. Your missions is to repel organized alien attacks against the Earth. The game consists of 5 separate missions, each with a set of objectives you'll need to accomplish. Player profiles and statistics are being collected after each mission for a hall of fame score board.
+DD2 is a single-player, 2D shoot'em up game where you control a battle turrent on the surface of the moon. Your missions is to repel organized alien attacks against the Earth. The game consists of 5 separate missions, each with a set of objectives you'll need to accomplish. Players may create separate game profiles; statistics are being collected after each mission for a hall of fame ranking.
 
 ## System requirements
 
