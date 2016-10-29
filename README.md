@@ -1,22 +1,44 @@
 Desktop Defender II - Battle for Existence
 ==============================================
 
-```
-Please note that from Windows Vista onwards DirectX 7 is no longer supported! 
-This game would probably only run on a Windows XP.
-A port of the game for DX9 is pending ...
-```
+DD2 is a single-player 2D shoot'em up game where you control a battle turret on the surface of the moon. Your mission is to repel organized alien attacks against the Earth. The game consists of 5 separate missions, each with a set of objectives you'll need to accomplish. Players may create separate game profiles. There are statistics being collected for each profile after a mission has been completed. Stats are used for a *Hall of Fame* ranking.
 
-DD2 is a single-player, 2D shoot'em up game where you control a battle turrent on the surface of the moon. Your missions is to repel organized alien attacks against the Earth. The game consists of 5 separate missions, each with a set of objectives you'll need to accomplish. Players may create separate game profiles; statistics are being collected after each mission for a hall of fame ranking.
+## Install
 
-## System requirements
+## Windows
+
+Please note that from Windows Vista onwards DirectX 7 is **no longer supported**! This game would probably only run on a Windows XP. 
+
+*Original* system requirements:
 
  * Windows 98/XP
  * 300 MHz Pentium or better
  * 32 MB RAM
  * DirectX 7.0
 
-## Screens
+## Linux
+
+It should be possible to run & play DD2 on Linux using [Wine](https://www.winehq.org/).
+
+Download the game [release package](https://github.com/kenamick/desktopdefender2/releases). Run it via wine, e.g.,
+
+    wine ddefender2.exe
+    
+By default Wine will extract it to `c:\games\ddefender2`. The real path on your Linux system should be `/home/<user>/.wine/drive_c/games/ddefender2`. 
+
+The next step is a bit tricky. The game needs DirectX 7 type descriptors for VB6, so you need to download the `dx7vb.dll` file and copy it in the game installation directory. The file may be found at [thevbzone](http://www.thevbzone.com/d_DLL.htm) or at [DllDump](http://www.dlldump.com/download-dll-files_new.php/dllfiles/D/dx7vb.dll/5.03.2600.2180/download.html).
+
+The DLL file needs to be registered in the *Windows Registry*, so after copying it, run the following:
+
+    wine regsvr32 dx7vb.dll
+
+Your are now set to run the game! To start the setup run:
+
+    wine Setup.exe
+    
+Choose the in-game language (English is the default) and press the `Run Game` button.
+
+## Game Screenshots
 
 ![alt text](http://i.imgur.com/UPLz8Gr.jpg "In game #1")
 ![alt text](http://i.imgur.com/L005keL.jpg "In game #2")
